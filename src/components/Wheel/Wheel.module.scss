@@ -1,0 +1,30 @@
+$border-color: #000;
+$segment-width: 50%;
+$segment-height: 50%;
+
+.wheel {
+  position: relative;
+  width: 800px;
+  height: 800px;
+  border-radius: 100%;
+  border: 5px solid $border-color;
+  overflow: hidden;
+}
+
+.segment {
+  position: absolute;
+  width: $segment-width;
+  height: $segment-height;
+  transform-origin: 100% 100%;
+  border: 1px solid white;
+}
+
+.label {
+  color: white;
+  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 50%;
+  left: 80%; // change left dynamically based on the size of segment
+  // transform: translateX(-100%);
+  text-align: right;
+}
