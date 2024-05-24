@@ -24,14 +24,20 @@ const Wheel = ({ participants }: WheelProps) => {
       360 / numberOfSegments
     )}deg) rotate(80deg)`;
 
+    const rightValue = `${900 / (numberOfSegments * 1.5)}px`;
+    const fontSize = `${Math.max(8, 24 - numberOfSegments / 2)}px`;
+
     return (
       <div
         key={index}
         className={styles.segment}
         style={{ transform, backgroundColor: colors[index] }}
       >
-        <span className={styles.label} style={{ transform: labelTransform }}>
-          {participant}
+        <span
+          className={styles.label}
+          style={{ transform: labelTransform, right: rightValue, fontSize }}
+        >
+          {numberOfSegments <= 40 ? participant : index}
         </span>
       </div>
     );

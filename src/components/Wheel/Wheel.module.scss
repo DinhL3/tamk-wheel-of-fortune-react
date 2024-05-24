@@ -3,11 +3,13 @@ $segment-width: 50%;
 $segment-height: 50%;
 
 .wheel {
+  margin-top: 1rem;
+  margin-left: 1rem;
   position: relative;
-  width: 800px;
-  height: 800px;
+  width: 900px;
+  height: 900px;
   border-radius: 100%;
-  border: 5px solid $border-color;
+  border: 3px solid $border-color;
   overflow: hidden;
 }
 
@@ -16,7 +18,7 @@ $segment-height: 50%;
   width: $segment-width;
   height: $segment-height;
   transform-origin: 100% 100%;
-  border: 1px solid white;
+  // border: 1px solid white;
 }
 
 .label {
@@ -24,7 +26,6 @@ $segment-height: 50%;
   background: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 50%;
-  left: 80%; // change left dynamically based on the size of segment
-  // transform: translateX(-100%);
-  text-align: right;
+  // left: 80%; // change left dynamically based on the size of segment
+  text-align: center;
 }
