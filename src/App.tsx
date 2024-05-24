@@ -36,7 +36,7 @@ function App() {
     return generatedNames;
   };
 
-  const numberOfParticipants = 20; // Change this number to test with different numbers of participants
+  const numberOfParticipants = 10; // Change this number to test with different numbers of participants
   const participants = generateNames(numberOfParticipants);
 
   return <Wheel participants={participants} />;

@@ -22,7 +22,7 @@ const Wheel = ({ participants }: WheelProps) => {
     const labelTransform = `skewY(${-(
       90 -
       360 / numberOfSegments
-    )}deg) rotate(80deg)`;
+    )}deg) rotate(75deg)`;
 
     const rightValue = `${900 / (numberOfSegments * 1.5)}px`;
     const fontSize = `${Math.max(8, 24 - numberOfSegments / 2)}px`;
