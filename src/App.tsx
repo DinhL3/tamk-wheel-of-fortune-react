@@ -1,5 +1,9 @@
 import React from 'react';
+
+import Box from '@mui/material/Box';
+
 import Wheel from './components/Wheel/Wheel';
+import PeopleList from './components/People/PeopleList';
 
 function App() {
   const generateNames = (numNames: number) => {
@@ -39,7 +43,12 @@ function App() {
   const numberOfParticipants = 10; // Change this number to test with different numbers of participants
   const participants = generateNames(numberOfParticipants);
 
-  return <Wheel participants={participants} />;
+  return (
+    <Box width="100vw" display="flex">
+      <Wheel participants={participants} />
+      <PeopleList />
+    </Box>
+  );
 }
 
 export default App;
