@@ -1,5 +1,6 @@
 import React from 'react';
 import Wheel from './components/Wheel/Wheel';
+import WebSocketComponent from './components/WebSocketComponent';
 
 function App() {
   const generateNames = (numNames: number) => {
@@ -39,7 +40,15 @@ function App() {
   const numberOfParticipants = 10; // Change this number to test with different numbers of participants
   const participants = generateNames(numberOfParticipants);
 
-  return <Wheel participants={participants} />;
+  //const raspberryPiIp = '193.167.167.59';
+
+
+  return (
+    <div>
+  <Wheel participants={participants} />
+  <WebSocketComponent />
+  </div>
+);
 }
 
 export default App;
