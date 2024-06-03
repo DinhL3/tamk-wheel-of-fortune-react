@@ -41,13 +41,12 @@ function App() {
     return generatedNames;
   };
 
-  const numberOfParticipants = 10; // Change this number to test with different numbers of participants
-  const participants = generateNames(numberOfParticipants);
+  const generatedPlayers = generateNames(10); // Change the number of generated players here
 
   return (
     <PlayersContextProvider>
-      <Box width="100vw" display="flex">
-        <Wheel participants={participants} />
+      <Box width="100vw" display="flex" justifyContent="space-around">
+        <Wheel players={generatedPlayers} />
         <PlayerList />
       </Box>
     </PlayersContextProvider>
