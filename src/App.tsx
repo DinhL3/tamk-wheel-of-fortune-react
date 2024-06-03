@@ -3,7 +3,7 @@ import React from 'react';
 import Box from '@mui/material/Box';
 
 import Wheel from './components/Wheel/Wheel';
-import PeopleList from './components/People/PeopleList';
+import PlayerList from './components/Players/PlayerList';
 
 function App() {
   const generateNames = (numNames: number) => {
@@ -46,7 +46,7 @@ function App() {
   return (
     <Box width="100vw" display="flex">
       <Wheel participants={participants} />
-      <PeopleList />
+      <PlayerList />
     </Box>
   );
 }

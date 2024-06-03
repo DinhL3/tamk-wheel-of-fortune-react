@@ -8,26 +8,26 @@ import ListItemButton from '@mui/material/ListItemButton';
 
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
-const PeopleList = () => {
-  const [peopleList, setPeopleList] = useState<string[]>([]);
-  const [newPerson, setNewPerson] = useState<string>('');
+const PlayerList = () => {
+  const [playerList, setPlayerList] = useState<string[]>([]);
+  const [newPlayer, setNewPlayer] = useState<string>('');
 
-  const handleAddPerson = () => {
-    if (newPerson.trim() === '') return;
-    setPeopleList([...peopleList, newPerson.trim()]);
-    setNewPerson(''); // Clear the input field after adding a person
+  const handleAddPlayer = () => {
+    if (newPlayer.trim() === '') return;
+    setPlayerList([...playerList, newPlayer.trim()]);
+    setNewPlayer(''); // Clear the input field after adding a player
   };
 
   const handleEnterKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
-      handleAddPerson();
+      handleAddPlayer();
     }
   };
 
   const renderRow = ({ index, style }: ListChildComponentProps) => (
     <ListItem style={style} key={index} component="div" disablePadding>
       <ListItemButton>
-        <ListItemText primary={peopleList[index]} />
+        <ListItemText primary={playerList[index]} />
       </ListItemButton>
     </ListItem>
   );
@@ -37,13 +37,13 @@ const PeopleList = () => {
       <Box sx={{ display: 'flex', mb: 1 }}>
         <TextField
           id="outlined-basic"
-          label="Add a person"
+          label="Add a player"
           variant="outlined"
-          value={newPerson}
-          onChange={(e) => setNewPerson(e.target.value)}
+          value={newPlayer}
+          onChange={(e) => setNewPlayer(e.target.value)}
           onKeyDown={handleEnterKeyDown}
         />
-        <Button variant="contained" onClick={handleAddPerson} sx={{ ml: 2 }}>
+        <Button variant="contained" onClick={handleAddPlayer} sx={{ ml: 2 }}>
           Add
         </Button>
       </Box>
@@ -59,7 +59,7 @@ const PeopleList = () => {
           height={400}
           width={360}
           itemSize={46}
-          itemCount={peopleList.length}
+          itemCount={playerList.length}
           overscanCount={5}
         >
           {renderRow}
@@ -69,4 +69,4 @@ const PeopleList = () => {
   );
 };
 
-export default PeopleList;
+export default PlayerList;

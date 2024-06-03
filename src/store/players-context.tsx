@@ -35,9 +35,9 @@ const PlayersContextProvider = ({ children }: Props) => {
   };
 
   return (
-    <PlayersContextProvider.Provider value={contextValue}>
+    <PlayersContext.Provider value={contextValue}>
       {children}
-    </PlayersContextProvider.Provider>
+    </PlayersContext.Provider>
   );
 };
 
