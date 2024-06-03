@@ -10,6 +10,9 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import { PlayersContext } from '../../store/players-context';
 import { Player } from '../../models/player.model';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 
 const PlayerList = () => {
   const [newPlayerId, setNewPlayerId] = useState<string>('');
@@ -54,6 +57,11 @@ const PlayerList = () => {
   const handleAddPlayer = () => {
     if (idError !== '' || nameError !== '') return;
 
+    if (playersCtx.players.some((player) => player.id === newPlayerId)) {
+      setIdError('ID already exists');
+      return;
+    }
+
     const newPlayer: Player = {
       id: newPlayerId,
       name: newPlayerName,
@@ -75,6 +83,13 @@ const PlayerList = () => {
         <ListItemText
           primary={`${playersCtx.players[index].id} - ${playersCtx.players[index].name}`}
         />
+        <IconButton
+          edge="end"
+          aria-label="delete"
+          onClick={() => playersCtx.removePlayer(playersCtx.players[index].id)}
+        >
+          <DeleteIcon />
+        </IconButton>
       </ListItemButton>
     </ListItem>
   );

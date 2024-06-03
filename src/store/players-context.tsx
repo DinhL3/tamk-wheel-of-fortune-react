@@ -4,7 +4,7 @@ import { Player } from '../models/player.model';
 type PlayersContextObj = {
   players: Player[];
   addPlayer: (player: Player) => void;
-  removePlayer: (player: Player) => void;
+  removePlayer: (id: string) => void;
 };
 
 export const PlayersContext = createContext<PlayersContextObj>({
@@ -24,8 +24,10 @@ const PlayersContextProvider = ({ children }: Props) => {
     setPlayers((prevPlayers) => [...prevPlayers, player]);
   };
 
-  const removePlayer = (player: Player) => {
-    setPlayers((prevPlayers) => prevPlayers.filter((p) => p.id !== player.id));
+  const removePlayer = (id: string) => {
+    setPlayers((prevPlayers) =>
+      prevPlayers.filter((player) => player.id !== id)
+    );
   };
 
   const contextValue: PlayersContextObj = {
