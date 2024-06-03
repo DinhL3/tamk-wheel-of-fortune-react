@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Wheel from './components/Wheel/Wheel';
 
 function App() {
@@ -38,6 +38,22 @@ function App() {
 
   const numberOfParticipants = 10; // Change this number to test with different numbers of participants
   const participants = generateNames(numberOfParticipants);
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://10.5.1.105:8765');
+
+    ws.onmessage = (event) => {
+      console.log('Message received: ', event.data);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   return <Wheel participants={participants} />;
 }
