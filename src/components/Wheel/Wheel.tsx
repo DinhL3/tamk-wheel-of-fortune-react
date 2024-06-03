@@ -1,11 +1,11 @@
 import styles from './Wheel.module.scss';
 
 interface WheelProps {
-  participants: string[];
+  players: string[];
 }
 
-const Wheel = ({ participants }: WheelProps) => {
-  const numberOfSegments = participants.length;
+const Wheel = ({ players }: WheelProps) => {
+  const numberOfSegments = players.length;
 
   const colors = Array.from({ length: numberOfSegments }, () => {
     const hue = Math.floor(Math.random() * 360);
@@ -14,7 +14,7 @@ const Wheel = ({ participants }: WheelProps) => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   });
 
-  const segments = participants.map((participant, index) => {
+  const segments = players.map((player, index) => {
     const angle = (360 / numberOfSegments) * index;
     const transform = `rotate(${angle}deg) skewY(${
       90 - 360 / numberOfSegments
@@ -37,7 +37,7 @@ const Wheel = ({ participants }: WheelProps) => {
           className={styles.label}
           style={{ transform: labelTransform, right: rightValue, fontSize }}
         >
-          {numberOfSegments <= 40 ? participant : index}
+          {numberOfSegments <= 40 ? player : index}
         </span>
       </div>
     );

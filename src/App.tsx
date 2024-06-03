@@ -1,5 +1,10 @@
 import React from 'react';
+
+import Box from '@mui/material/Box';
+
 import Wheel from './components/Wheel/Wheel';
+import PlayerList from './components/Players/PlayerList';
+import PlayersContextProvider from './store/players-context';
 
 function App() {
   const generateNames = (numNames: number) => {
@@ -36,10 +41,16 @@ function App() {
     return generatedNames;
   };
 
-  const numberOfParticipants = 10; // Change this number to test with different numbers of participants
-  const participants = generateNames(numberOfParticipants);
+  const generatedPlayers = generateNames(10); // Change the number of generated players here
 
-  return <Wheel participants={participants} />;
+  return (
+    <PlayersContextProvider>
+      <Box width="100vw" display="flex" justifyContent="space-around">
+        <Wheel players={generatedPlayers} />
+        <PlayerList />
+      </Box>
+    </PlayersContextProvider>
+  );
 }
 
 export default App;
