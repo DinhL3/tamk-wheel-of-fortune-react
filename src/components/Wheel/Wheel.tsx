@@ -1,49 +1,43 @@
+import { Box } from '@mui/material';
 import styles from './Wheel.module.scss';
+import { Player } from '../../models/player.model';
 
 interface WheelProps {
-  players: string[];
+  players: Player[];
 }
 
 const Wheel = ({ players }: WheelProps) => {
-  const numberOfSegments = players.length;
+  const totalSegments = players.length;
 
-  const colors = Array.from({ length: numberOfSegments }, () => {
+  const generateRandomColor = () => {
     const hue = Math.floor(Math.random() * 360);
     const saturation = Math.floor(Math.random() * 100);
     const lightness = Math.floor(Math.random() * 100);
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-  });
+  };
 
-  const segments = players.map((player, index) => {
-    const angle = (360 / numberOfSegments) * index;
-    const transform = `rotate(${angle}deg) skewY(${
-      90 - 360 / numberOfSegments
-    }deg)`;
-    const labelTransform = `skewY(${-(
-      90 -
-      360 / numberOfSegments
-    )}deg) rotate(75deg)`;
-
-    const rightValue = `${900 / (numberOfSegments * 1.5)}px`;
-    const fontSize = `${Math.max(8, 24 - numberOfSegments / 2)}px`;
-
-    return (
-      <div
-        key={index}
-        className={styles.segment}
-        style={{ transform, backgroundColor: colors[index] }}
-      >
-        <span
-          className={styles.label}
-          style={{ transform: labelTransform, right: rightValue, fontSize }}
-        >
-          {numberOfSegments <= 40 ? player : index}
-        </span>
+  return (
+    <div className={styles.container}>
+      <div className={styles.spinBtn} />
+      <div className={styles.wheel}>
+        {players.map((player, index) => (
+          <div
+            key={player.id}
+            className={styles.segment}
+            style={
+              {
+                '--segment-pos': index + 1,
+                '--total-segments': totalSegments,
+                '--segment-color': generateRandomColor(),
+              } as React.CSSProperties
+            }
+          >
+            {player.name}
+          </div>
+        ))}
       </div>
-    );
-  });
-
-  return <div className={styles.wheel}>{segments}</div>;
+    </div>
+  );
 };
 
 export default Wheel;

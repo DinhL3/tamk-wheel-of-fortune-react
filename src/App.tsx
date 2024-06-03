@@ -1,13 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Box from '@mui/material/Box';
 
 import Wheel from './components/Wheel/Wheel';
 import PlayerList from './components/Players/PlayerList';
-import PlayersContextProvider from './store/players-context';
+import PlayersContextProvider, {
+  PlayersContext,
+} from './store/players-context';
+
+import { Player } from './models/player.model';
 
 function App() {
-  const generateNames = (numNames: number) => {
+  const playersCtx = useContext(PlayersContext);
+
+  const generatePlayers = (numPlayers: number) => {
     const names = [
       'Alice',
       'Bob',
@@ -30,18 +36,23 @@ function App() {
       'Uma',
       'Victor',
     ];
-    const generatedNames = [];
+    const generatedPlayers: Player[] = [];
 
-    for (let i = 0; i < numNames; i++) {
+    const generateId = () => {
+      return Math.random().toString().slice(2, 9);
+    };
+
+    for (let i = 0; i < numPlayers; i++) {
       const name = names[i % names.length];
       const suffix = Math.floor(i / names.length);
-      generatedNames.push(suffix === 0 ? name : `${name} ${suffix}`);
+      const playerName = suffix === 0 ? name : `${name} ${suffix}`;
+      generatedPlayers.push({ id: generateId(), name: playerName });
     }
 
-    return generatedNames;
+    return generatedPlayers;
   };
 
-  const generatedPlayers = generateNames(10); // Change the number of generated players here
+  const generatedPlayers = generatePlayers(10);
 
   return (
     <PlayersContextProvider>
