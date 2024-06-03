@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 
 import Wheel from './components/Wheel/Wheel';
 import PlayerList from './components/Players/PlayerList';
+import PlayersContextProvider from './store/players-context';
 
 function App() {
   const generateNames = (numNames: number) => {
@@ -44,10 +45,12 @@ function App() {
   const participants = generateNames(numberOfParticipants);
 
   return (
-    <Box width="100vw" display="flex">
-      <Wheel participants={participants} />
-      <PlayerList />
-    </Box>
+    <PlayersContextProvider>
+      <Box width="100vw" display="flex">
+        <Wheel participants={participants} />
+        <PlayerList />
+      </Box>
+    </PlayersContextProvider>
   );
 }
 
