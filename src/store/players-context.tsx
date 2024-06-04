@@ -18,7 +18,26 @@ interface Props {
 }
 
 const PlayersContextProvider = ({ children }: Props) => {
-  const [players, setPlayers] = useState<Player[]>([]);
+  const presetPlayers = [
+    {
+      id: '1',
+      name: 'Melina',
+    },
+    {
+      id: '2',
+      name: 'Ranni',
+    },
+    {
+      id: '3',
+      name: 'Blaidd',
+    },
+    {
+      id: '4',
+      name: 'Rya',
+    },
+  ];
+
+  const [players, setPlayers] = useState<Player[]>(presetPlayers);
 
   const addPlayer = (player: Player) => {
     setPlayers((prevPlayers) => [...prevPlayers, player]);
