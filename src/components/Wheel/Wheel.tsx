@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import styles from './Wheel.module.scss';
 import { Player } from '../../models/player.model';
@@ -73,6 +73,22 @@ const Wheel = () => {
 
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
+
+  useEffect(() => {
+    const ws = new WebSocket('ws://10.5.1.105:8765');
+
+    ws.onmessage = (event) => {
+      console.log('Message received: ', event.data);
+    };
+
+    ws.onclose = () => {
+      console.log('WebSocket connection closed');
+    };
+
+    return () => {
+      ws.close();
+    };
+  }, []);
 
   return (
     <div className={styles.container}>
