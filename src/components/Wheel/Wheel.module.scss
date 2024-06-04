@@ -1,31 +1,60 @@
-$border-color: #000;
-$segment-width: 50%;
-$segment-height: 50%;
-
-.wheel {
-  margin-top: 1rem;
-  margin-left: 1rem;
+.container {
   position: relative;
   width: 95vh;
   height: 95vh;
-  border-radius: 100%;
-  border: px solid $border-color;
-  overflow: hidden;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: 1rem;
 
-.segment {
-  position: absolute;
-  width: $segment-width;
-  height: $segment-height;
-  transform-origin: 100% 100%;
-  // border: 1px solid white;
-}
+  .spinBtn {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: red;
+    border-radius: 50%;
+    z-index: 10;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-.label {
-  color: white;
-  background: rgba(0, 0, 0, 0.5);
-  position: absolute;
-  top: 50%;
-  // left: 80%; // change left dynamically based on the size of segment
-  text-align: center;
+    &::before {
+      content: '';
+      position: absolute;
+      top: -55px;
+      width: 30px;
+      height: 60px;
+      background: red;
+      clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+    }
+  }
+
+  .wheel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: grey;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid black;
+
+    .segment {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: var(--segment-color);
+      transform-origin: bottom right;
+      transform: rotate(
+        calc(360deg / var(--total-segments) * var(--segment-index))
+      );
+      clip-path: var(--clip-path);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

@@ -49,10 +49,13 @@ function App() {
       generatedPlayers.push({ id: generateId(), name: playerName });
     }
 
+    console.log(generatedPlayers);
+
     return generatedPlayers;
   };
 
-  const generatedPlayers = generatePlayers(10);
+  const generatedPlayers = generatePlayers(50);
+  console.log(generatedPlayers);
 
   return (
     <PlayersContextProvider>

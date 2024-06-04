@@ -8,6 +8,17 @@ interface WheelProps {
 
 const Wheel = ({ players }: WheelProps) => {
   const totalSegments = players.length;
+  const segmentTheta = 360 / totalSegments;
+  function getTanFromDegrees(degrees: number) {
+    return Math.tan((degrees * Math.PI) / 180);
+  }
+  const clipPathEdgePerc = 1 - getTanFromDegrees((90 - segmentTheta) / 2);
+  const clipPathEdgePercStr = `${(clipPathEdgePerc * 100).toFixed(2)}%`;
+  const clipPath = `polygon(0 0, ${clipPathEdgePercStr} 0, 100% 100%, 0 ${clipPathEdgePercStr})`;
+  console.log(segmentTheta);
+  console.log(clipPathEdgePerc);
+  console.log(clipPathEdgePercStr);
+  console.log(clipPath);
 
   const generateRandomColor = () => {
     const hue = Math.floor(Math.random() * 360);
@@ -26,13 +37,14 @@ const Wheel = ({ players }: WheelProps) => {
             className={styles.segment}
             style={
               {
-                '--segment-pos': index + 1,
+                '--segment-index': index,
                 '--total-segments': totalSegments,
                 '--segment-color': generateRandomColor(),
+                '--clip-path': clipPath,
               } as React.CSSProperties
             }
           >
-            {player.name}
+            <span>{player.name}</span>
           </div>
         ))}
       </div>
