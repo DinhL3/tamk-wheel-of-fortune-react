@@ -17,27 +17,48 @@ interface Props {
   children: React.ReactNode;
 }
 
-const PlayersContextProvider = ({ children }: Props) => {
-  const presetPlayers = [
-    {
-      id: '1',
-      name: 'Melina',
-    },
-    {
-      id: '2',
-      name: 'Ranni',
-    },
-    {
-      id: '3',
-      name: 'Blaidd',
-    },
-    {
-      id: '4',
-      name: 'Rya',
-    },
+const generatePlayers = (numPlayers: number) => {
+  const names = [
+    'Alice',
+    'Bob',
+    'Charlie',
+    'Dave',
+    'Eve',
+    'Frank',
+    'Grace',
+    'Heidi',
+    'Ivan',
+    'Judy',
+    'Mallory',
+    'Oscar',
+    'Peggy',
+    'Trent',
+    'Walter',
+    'Xavier',
+    'Yvonne',
+    'Zack',
+    'Uma',
+    'Victor',
   ];
+  const generatedPlayers: Player[] = [];
 
-  const [players, setPlayers] = useState<Player[]>(presetPlayers);
+  const generateId = () => {
+    return Math.random().toString().slice(2, 9);
+  };
+
+  for (let i = 0; i < numPlayers; i++) {
+    const name = names[i % names.length];
+    const suffix = Math.floor(i / names.length);
+    const playerName = suffix === 0 ? name : `${name} ${suffix}`;
+    generatedPlayers.push({ id: generateId(), name: playerName });
+  }
+
+  return generatedPlayers;
+};
+
+const PlayersContextProvider = ({ children }: Props) => {
+  //change the number of players below to change the number of random generated players, do not go under 4, not working atm
+  const [players, setPlayers] = useState<Player[]>(generatePlayers(4));
 
   const addPlayer = (player: Player) => {
     setPlayers((prevPlayers) => [...prevPlayers, player]);
