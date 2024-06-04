@@ -1,47 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import styles from './Wheel.module.scss';
-import { Player } from '../../models/player.model';
 import { PlayersContext } from '../../store/players-context';
-
-const generatePlayers = (numPlayers: number) => {
-  const names = [
-    'Alice',
-    'Bob',
-    'Charlie',
-    'Dave',
-    'Eve',
-    'Frank',
-    'Grace',
-    'Heidi',
-    'Ivan',
-    'Judy',
-    'Mallory',
-    'Oscar',
-    'Peggy',
-    'Trent',
-    'Walter',
-    'Xavier',
-    'Yvonne',
-    'Zack',
-    'Uma',
-    'Victor',
-  ];
-  const generatedPlayers: Player[] = [];
-
-  const generateId = () => {
-    return Math.random().toString().slice(2, 9);
-  };
-
-  for (let i = 0; i < numPlayers; i++) {
-    const name = names[i % names.length];
-    const suffix = Math.floor(i / names.length);
-    const playerName = suffix === 0 ? name : `${name} ${suffix}`;
-    generatedPlayers.push({ id: generateId(), name: playerName });
-  }
-
-  return generatedPlayers;
-};
 
 const Wheel = () => {
   const playersCtx = useContext(PlayersContext);
