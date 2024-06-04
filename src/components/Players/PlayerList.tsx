@@ -10,7 +10,6 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
 import { PlayersContext } from '../../store/players-context';
 import { Player } from '../../models/player.model';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 
