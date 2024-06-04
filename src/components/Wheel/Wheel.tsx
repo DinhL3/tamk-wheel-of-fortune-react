@@ -15,10 +15,6 @@ const Wheel = ({ players }: WheelProps) => {
   const clipPathEdgePerc = 1 - getTanFromDegrees((90 - segmentTheta) / 2);
   const clipPathEdgePercStr = `${(clipPathEdgePerc * 100).toFixed(2)}%`;
   const clipPath = `polygon(0 0, ${clipPathEdgePercStr} 0, 100% 100%, 0 ${clipPathEdgePercStr})`;
-  console.log(segmentTheta);
-  console.log(clipPathEdgePerc);
-  console.log(clipPathEdgePercStr);
-  console.log(clipPath);
 
   const generateRandomColor = (index: number) => {
     const hue = Math.floor(Math.random() * 360);

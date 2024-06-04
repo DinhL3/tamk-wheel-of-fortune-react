@@ -12,14 +12,15 @@ $lucky-red: #ff2424;
   display: flex;
   justify-content: center;
   @include flex-center;
+  margin-top: 1.5rem;
 
   .needle {
     position: absolute;
     z-index: 10;
-    top: 40px;
-    left: 40px;
-    width: 100px;
-    height: 100px;
+    top: 30px;
+    left: 30px;
+    width: 150px;
+    height: 150px;
     background: red;
     clip-path: polygon(33% 0, 0 36%, 100% 100%);
     @include flex-center;
@@ -28,6 +29,7 @@ $lucky-red: #ff2424;
       color: white;
       text-transform: uppercase;
       font-size: 0.8rem;
+      font-weight: bold;
       text-align: center;
       transform: rotate(45deg);
     }
