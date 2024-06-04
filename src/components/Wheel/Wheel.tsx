@@ -20,16 +20,30 @@ const Wheel = ({ players }: WheelProps) => {
   console.log(clipPathEdgePercStr);
   console.log(clipPath);
 
-  const generateRandomColor = () => {
+  const generateRandomColor = (index: number) => {
     const hue = Math.floor(Math.random() * 360);
-    const saturation = Math.floor(Math.random() * 100);
-    const lightness = Math.floor(Math.random() * 100);
+    const saturation = 100;
+    let lightness;
+
+    if (index % 2 === 0) {
+      // Even index, lighter colors
+      lightness = Math.floor(Math.random() * 11) + 90;
+    } else {
+      // Odd index, darker colors
+      lightness = Math.floor(Math.random() * 36) + 25;
+    }
+
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
   return (
     <div className={styles.container}>
-      <div className={styles.spinBtn} />
+      <div className={styles.spinBtn}>
+        <span>Wheel of fortune</span>
+      </div>
+      <div className={styles.needle}>
+        <span>winner</span>
+      </div>
       <div className={styles.wheel}>
         {players.map((player, index) => (
           <div
@@ -39,7 +53,7 @@ const Wheel = ({ players }: WheelProps) => {
               {
                 '--segment-index': index,
                 '--total-segments': totalSegments,
-                '--segment-color': generateRandomColor(),
+                '--segment-color': generateRandomColor(index),
                 '--clip-path': clipPath,
               } as React.CSSProperties
             }

@@ -1,33 +1,54 @@
+$lucky-red: #ff2424;
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .container {
   position: relative;
   width: 95vh;
   height: 95vh;
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-top: 1rem;
-  margin-left: 1rem;
+  @include flex-center;
+
+  .needle {
+    position: absolute;
+    z-index: 10;
+    top: 40px;
+    left: 40px;
+    width: 100px;
+    height: 100px;
+    background: red;
+    clip-path: polygon(33% 0, 0 36%, 100% 100%);
+    @include flex-center;
+
+    span {
+      color: white;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      text-align: center;
+      transform: rotate(45deg);
+    }
+  }
 
   .spinBtn {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background: red;
+    width: 150px;
+    height: 150px;
+    padding: 1rem;
+    background: $lucky-red;
     border-radius: 50%;
     z-index: 10;
-    border: 1px solid black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border: 3px solid white;
+    @include flex-center;
 
-    &::before {
-      content: '';
-      position: absolute;
-      top: -55px;
-      width: 30px;
-      height: 60px;
-      background: red;
-      clip-path: polygon(50% 0%, 15% 100%, 85% 100%);
+    span {
+      color: white;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
     }
   }
 
@@ -52,9 +73,7 @@
         calc(360deg / var(--total-segments) * var(--segment-index))
       );
       clip-path: var(--clip-path);
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include flex-center;
 
       .label {
         position: relative;
