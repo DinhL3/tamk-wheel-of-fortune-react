@@ -44,7 +44,7 @@ const Wheel = ({ players }: WheelProps) => {
               } as React.CSSProperties
             }
           >
-            <span>{player.name}</span>
+            <span className={styles.label}>{player.name}</span>
           </div>
         ))}
       </div>

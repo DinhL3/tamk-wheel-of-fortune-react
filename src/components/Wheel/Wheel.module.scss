@@ -55,6 +55,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      .label {
+        position: relative;
+        transform: rotate(45deg);
+        color: white;
+        background: rgba($color: #000000, $alpha: 0.5);
+      }
     }
   }
 }
