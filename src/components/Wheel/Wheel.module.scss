@@ -64,6 +64,8 @@ $lucky-red: #ff2424;
     border-radius: 50%;
     overflow: hidden;
     border: 2px solid black;
+    border: 2px solid black;
+    transition: transform 4s ease-out;
 
     .segment {
       position: absolute;

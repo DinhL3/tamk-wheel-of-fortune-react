@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import styles from './Wheel.module.scss';
 import { PlayersContext } from '../../store/players-context';
@@ -50,15 +50,50 @@ const Wheel = () => {
     };
   }, []);
 
+  // Spin the wheel
+  const [degree, setDegree] = useState(0);
+
+  const spinWheel = () => {
+    const minDegree = 360;
+    const maxDegree = 3600;
+    const randomDegree = Math.floor(Math.random() * (maxDegree - minDegree + 1)) + minDegree;
+    setDegree(prevDegree => prevDegree + randomDegree);
+  }
+
+  // Landing segment not working yet
+
+  /*
+  const getLandingSegment = () => {
+    // Normalize degree to be within [0, 360)
+    let normalizedDegree = degree % 360;
+    if (normalizedDegree < 0) {
+      normalizedDegree += 360;
+    }
+
+    // Calculate which segment the needle is pointing to
+    let landingIndex = Math.floor(normalizedDegree / segmentTheta);
+
+    // Adjust landingIndex to match array bounds
+    landingIndex = landingIndex % totalSegments;
+    if (landingIndex < 0) {
+      landingIndex += totalSegments;
+    }
+
+    // Return the corresponding player from players array
+    return players[landingIndex];
+  };
+*/
+
+
   return (
     <div className={styles.container}>
       <div className={styles.spinBtn}>
-        <span>Wheel of fortune</span>
+        <span onClick={spinWheel}>Wheel of fortune</span>
       </div>
       <div className={styles.needle}>
         <span>winner</span>
       </div>
-      <div className={styles.wheel}>
+      <div className={styles.wheel} style={{ transform: `rotate(${degree}deg)` }}>
         {players.map((player, index) => (
           <div
             key={player.id}
@@ -75,6 +110,13 @@ const Wheel = () => {
             <span className={styles.label}>{player.name}</span>
           </div>
         ))}
+      </div>
+      <div style ={{
+        position: 'absolute',
+        top: 0,
+        left: 200
+      }}>
+        <h1>Winner: {getLandingSegment().name}</h1>
       </div>
     </div>
   );
