@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import styles from './Wheel.module.scss';
 import { PlayersContext } from '../../store/players-context';
@@ -50,15 +50,46 @@ const Wheel = () => {
     };
   }, []);
 
+  // Spin the wheel
+  const [visualDegree, setVisualDegree] = useState(0);
+  const actualDegreeRef = useRef(0);
+
+  const handleSpinWheel = () => {
+    const minDegree = 360 * 3;
+    const maxDegree = 360 * 10;
+    const randomDegree =
+      Math.floor(Math.random() * (maxDegree - minDegree + 1)) + minDegree;
+
+    actualDegreeRef.current += randomDegree;
+    const newVisualDegree = visualDegree - randomDegree;
+    setVisualDegree(newVisualDegree);
+
+    // Calculate the winning segment after 4 seconds (because of your 4s ease out transition)
+    setTimeout(() => {
+      const normalizedDegree = actualDegreeRef.current % 360;
+
+      // Adjust the normalized degree to account for the needle starting at the middle of segment index 0
+      const adjustedDegree = (normalizedDegree + segmentTheta / 2) % 360;
+
+      const winningIndex = Math.floor(adjustedDegree / segmentTheta);
+      const winner = players[winningIndex];
+
+      console.log('Winner:', winner.name);
+    }, 4000);
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.spinBtn}>
+      <div onClick={handleSpinWheel} className={styles.spinBtn}>
         <span>Wheel of fortune</span>
       </div>
       <div className={styles.needle}>
         <span>winner</span>
       </div>
-      <div className={styles.wheel}>
+      <div
+        className={styles.wheel}
+        style={{ transform: `rotate(${visualDegree}deg)` }}
+      >
         {players.map((player, index) => (
           <div
             key={player.id}
