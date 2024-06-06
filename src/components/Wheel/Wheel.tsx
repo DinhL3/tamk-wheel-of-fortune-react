@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import styles from './Wheel.module.scss';
 import { PlayersContext } from '../../store/players-context';
@@ -51,49 +51,46 @@ const Wheel = () => {
   }, []);
 
   // Spin the wheel
-  const [degree, setDegree] = useState(0);
+  const [visualDegree, setVisualDegree] = useState(0);
+  const actualDegreeRef = useRef(0);
 
-  const spinWheel = () => {
-    const minDegree = 360;
-    const maxDegree = 3600;
-    const randomDegree = Math.floor(Math.random() * (maxDegree - minDegree + 1)) + minDegree;
-    setDegree(prevDegree => prevDegree + randomDegree);
-  }
+  const handleSpinWheel = () => {
+    const minDegree = 360 * 3;
+    const maxDegree = 360 * 10;
+    const randomDegree =
+      Math.floor(Math.random() * (maxDegree - minDegree + 1)) + minDegree;
 
-  // Landing segment not working yet
+    console.log(randomDegree);
+    actualDegreeRef.current += randomDegree;
+    const newVisualDegree = visualDegree - randomDegree;
+    setVisualDegree(newVisualDegree);
 
-  /*
-  const getLandingSegment = () => {
-    // Normalize degree to be within [0, 360)
-    let normalizedDegree = degree % 360;
-    if (normalizedDegree < 0) {
-      normalizedDegree += 360;
-    }
+    // Calculate the winning segment after 4 seconds (because of your 4s ease out transition)
+    setTimeout(() => {
+      const normalizedDegree = actualDegreeRef.current % 360;
 
-    // Calculate which segment the needle is pointing to
-    let landingIndex = Math.floor(normalizedDegree / segmentTheta);
+      // Adjust the normalized degree to account for the needle starting at the middle of segment index 0
+      const adjustedDegree = (normalizedDegree + segmentTheta / 2) % 360;
 
-    // Adjust landingIndex to match array bounds
-    landingIndex = landingIndex % totalSegments;
-    if (landingIndex < 0) {
-      landingIndex += totalSegments;
-    }
+      const winningIndex = Math.floor(adjustedDegree / segmentTheta);
+      const winner = players[winningIndex];
 
-    // Return the corresponding player from players array
-    return players[landingIndex];
+      console.log('Winner:', winner.name);
+    }, 4000);
   };
-*/
-
 
   return (
     <div className={styles.container}>
       <div className={styles.spinBtn}>
-        <span onClick={spinWheel}>Wheel of fortune</span>
+        <span onClick={handleSpinWheel}>Wheel of fortune</span>
       </div>
       <div className={styles.needle}>
         <span>winner</span>
       </div>
-      <div className={styles.wheel} style={{ transform: `rotate(${degree}deg)` }}>
+      <div
+        className={styles.wheel}
+        style={{ transform: `rotate(${visualDegree}deg)` }}
+      >
         {players.map((player, index) => (
           <div
             key={player.id}
@@ -110,13 +107,6 @@ const Wheel = () => {
             <span className={styles.label}>{player.name}</span>
           </div>
         ))}
-      </div>
-      <div style ={{
-        position: 'absolute',
-        top: 0,
-        left: 200
-      }}>
-        <h1>Winner: {getLandingSegment().name}</h1>
       </div>
     </div>
   );
