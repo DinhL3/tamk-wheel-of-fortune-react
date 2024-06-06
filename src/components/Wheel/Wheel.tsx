@@ -60,7 +60,6 @@ const Wheel = () => {
     const randomDegree =
       Math.floor(Math.random() * (maxDegree - minDegree + 1)) + minDegree;
 
-    console.log(randomDegree);
     actualDegreeRef.current += randomDegree;
     const newVisualDegree = visualDegree - randomDegree;
     setVisualDegree(newVisualDegree);
@@ -81,8 +80,8 @@ const Wheel = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.spinBtn}>
-        <span onClick={handleSpinWheel}>Wheel of fortune</span>
+      <div onClick={handleSpinWheel} className={styles.spinBtn}>
+        <span>Wheel of fortune</span>
       </div>
       <div className={styles.needle}>
         <span>winner</span>
