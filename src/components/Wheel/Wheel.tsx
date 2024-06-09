@@ -2,12 +2,21 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 
 import styles from './Wheel.module.scss';
 import { PlayersContext } from '../../store/players-context';
+import {
+  FormControlLabel,
+  FormGroup,
+  Stack,
+  Switch,
+  Typography,
+} from '@mui/material';
 
 const Wheel = () => {
+  const [visualDegree, setVisualDegree] = useState<number>(0);
+
+  const actualDegreeRef = useRef<number>(0);
+  const [isWebMode, setIsWebMode] = useState<boolean>(true);
   const playersCtx = useContext(PlayersContext);
   const players = playersCtx.players;
-
-  // const players = generatePlayers(50);
 
   const totalSegments = players.length;
   const segmentTheta = 360 / totalSegments;
@@ -34,26 +43,6 @@ const Wheel = () => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
-  useEffect(() => {
-    const ws = new WebSocket('ws://10.5.1.105:8765');
-
-    ws.onmessage = (event) => {
-      console.log('Message received: ', event.data);
-    };
-
-    ws.onclose = () => {
-      console.log('WebSocket connection closed');
-    };
-
-    return () => {
-      ws.close();
-    };
-  }, []);
-
-  // Spin the wheel
-  const [visualDegree, setVisualDegree] = useState(0);
-  const actualDegreeRef = useRef(0);
-
   const handleSpinWheel = () => {
     const minDegree = 360 * 3;
     const maxDegree = 360 * 10;
@@ -78,16 +67,65 @@ const Wheel = () => {
     }, 4000);
   };
 
+  const handleWheelModeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsWebMode(event.target.checked);
+    if (event.target.checked) {
+      setVisualDegree(0);
+    }
+  };
+
+  useEffect(() => {
+    let ws: WebSocket | null = null;
+
+    if (!isWebMode) {
+      ws = new WebSocket('ws://localhost:8765');
+
+      ws.onopen = () => {
+        console.log('WebSocket connection established');
+      };
+
+      ws.onmessage = (event) => {
+        // convert string to number, then to degrees
+        setVisualDegree(-Number(event.data) * (360 / 50));
+      };
+
+      ws.onclose = () => {
+        console.log('WebSocket connection closed');
+      };
+    }
+
+    return () => {
+      if (ws) {
+        ws.close();
+      }
+    };
+  }, [isWebMode]);
+
   return (
     <div className={styles.container}>
       <div onClick={handleSpinWheel} className={styles.spinBtn}>
-        <span>Wheel of fortune</span>
+        <span>{isWebMode ? 'Spin' : 'Reset'}</span>
       </div>
       <div className={styles.needle}>
         <span>winner</span>
       </div>
+      <FormGroup sx={{ position: 'absolute', top: 0, right: '-50px' }}>
+        <Stack direction="row" spacing={1} alignItems="center">
+          <Typography>Embedded</Typography>
+          <FormControlLabel
+            control={
+              <Switch checked={isWebMode} onChange={handleWheelModeChange} />
+            }
+            label="Web only"
+          />
+        </Stack>
+      </FormGroup>
       <div
-        className={styles.wheel}
+        className={`${styles.wheel} ${
+          isWebMode ? styles.web : styles.embedded
+        }`}
         style={{ transform: `rotate(${visualDegree}deg)` }}
       >
         {players.map((player, index) => (
