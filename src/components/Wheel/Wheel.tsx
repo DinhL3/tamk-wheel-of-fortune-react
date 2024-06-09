@@ -15,6 +15,7 @@ const Wheel = () => {
 
   const actualDegreeRef = useRef<number>(0);
   const [isWebMode, setIsWebMode] = useState<boolean>(true);
+  const ws = useRef<WebSocket | null>(null);
   const playersCtx = useContext(PlayersContext);
   const players = playersCtx.players;
 
@@ -67,6 +68,12 @@ const Wheel = () => {
     }, 4000);
   };
 
+  const handleReset = () => {
+    if (ws.current && ws.current.readyState === WebSocket.OPEN) {
+      ws.current.send('reset');
+    }
+  };
+
   const handleWheelModeChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -77,35 +84,36 @@ const Wheel = () => {
   };
 
   useEffect(() => {
-    let ws: WebSocket | null = null;
-
     if (!isWebMode) {
-      ws = new WebSocket('ws://localhost:8765');
+      ws.current = new WebSocket('ws://localhost:8765');
+      // ws.current = new WebSocket('ws://10.5.1.105:8765');
 
-      ws.onopen = () => {
+      ws.current.onopen = () => {
         console.log('WebSocket connection established');
       };
 
-      ws.onmessage = (event) => {
-        // convert string to number, then to degrees
+      ws.current.onmessage = (event) => {
         setVisualDegree(-Number(event.data) * (360 / 50));
       };
 
-      ws.onclose = () => {
+      ws.current.onclose = () => {
         console.log('WebSocket connection closed');
       };
-    }
 
-    return () => {
-      if (ws) {
-        ws.close();
-      }
-    };
+      return () => {
+        if (ws.current) {
+          ws.current.close();
+        }
+      };
+    }
   }, [isWebMode]);
 
   return (
     <div className={styles.container}>
-      <div onClick={handleSpinWheel} className={styles.spinBtn}>
+      <div
+        onClick={isWebMode ? handleSpinWheel : handleReset}
+        className={styles.spinBtn}
+      >
         <span>{isWebMode ? 'Spin' : 'Reset'}</span>
       </div>
       <div className={styles.needle}>
