@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState, useMemo } from 'react';
 
 import styles from './Wheel.module.scss';
 import { PlayersContext } from '../../store/players-context';
@@ -44,6 +44,10 @@ const Wheel = () => {
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
   };
 
+  const colors = useMemo(() => {
+    return players.map((_, index) => generateRandomColor(index));
+  }, [totalSegments]);
+
   const handleSpinWheel = () => {
     const minDegree = 360 * 3;
     const maxDegree = 360 * 10;
@@ -85,8 +89,8 @@ const Wheel = () => {
 
   useEffect(() => {
     if (!isWebMode) {
-      ws.current = new WebSocket('ws://localhost:8765');
-      // ws.current = new WebSocket('ws://10.5.1.105:8765');
+      // ws.current = new WebSocket('ws://localhost:8765');
+      ws.current = new WebSocket('ws://10.5.1.105:8765');
 
       ws.current.onopen = () => {
         console.log('WebSocket connection established');
@@ -144,7 +148,7 @@ const Wheel = () => {
               {
                 '--segment-index': index,
                 '--total-segments': totalSegments,
-                '--segment-color': generateRandomColor(index),
+                '--segment-color': colors[index],
                 '--clip-path': clipPath,
               } as React.CSSProperties
             }

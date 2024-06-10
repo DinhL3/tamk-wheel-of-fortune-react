@@ -58,7 +58,7 @@ const generatePlayers = (numPlayers: number) => {
 
 const PlayersContextProvider = ({ children }: Props) => {
   //change the number of players below to change the number of random generated players, do not go under 4, not working atm
-  const [players, setPlayers] = useState<Player[]>(generatePlayers(4));
+  const [players, setPlayers] = useState<Player[]>(generatePlayers(10));
 
   const addPlayer = (player: Player) => {
     setPlayers((prevPlayers) => [...prevPlayers, player]);
