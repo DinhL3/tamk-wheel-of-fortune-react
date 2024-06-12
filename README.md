@@ -1,46 +1,34 @@
-# Getting Started with Create React App
+# Embedded Wheel of Fortune, frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![Overview](https://res.cloudinary.com/doeoghxhd/image/upload/v1718203321/wheel/overview_gxw7y0.png)
 
-## Available Scripts
+## 1. Overview
+This is the frontend for the TAMK's embedded Wheel of Fortune project. Written in React TypeScript. The wheel can be choose a winner on its own on web interface, or change the mode to fetch the wheel position from the embedded wheel. User can add and remove players.
 
-In the project directory, you can run:
+## 2. Installation and usage
+* Clone this repo, `cd` into the repo
+* Run `npm install`
+* Run `npm start`
 
-### `npm start`
+### 2.1. Web-only mode
+* Check that the switch on the top-right of the wheel is on "Web only"
+* The web-only mode should be functional, open `src/store/players-context.tsx` and change the number 10 in <br> `const [players, setPlayers] = useState<Player[]>(generatePlayers(10));` <br>
+to adjust the amount of initial random players, to see how the wheel segments change. Fewer than 4 players not supported (see Missing features below).
+* Click the Spin button in the middle to spin the wheel. The wheel should stop at a random player after 4 seconds. Winner is announced in browser's console.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 2.2. Embedded mode
+* Check that the wiring for Raspberry Pi (Websocket server), Arduino, and the codes for respective parts are working properly. <br>
+Arduino C++: https://github.com/DinhL3/Laser_sensor <br>
+Raspberry Pi Python: https://github.com/DinhL3/wheel-python <br>
+* Make sure both client and Websocket server are on the same network, and get the **LOCAL** IPv4 address of the server. Please don't use public IP address from https://whatismyipaddress.com/ :(
+* Disable firewall on Websocket server device (not recommended but we could not find another solution), and check if there is connection by running `ping <server-ipv4-address>` in client's Command Prompt
+* Open `src/components/Wheel/Wheel.tsx` <br>
+and change accordingly `ws.current = new WebSocket('ws://<server-ipv4>:<port>');`
+* Open browser and switch to Embedded mode, check console if there is successful connection to websocket
+* If connection successful, embedded mode should be working. Spin the physical wheel and see the web wheel reflect its position
+* Press the reset button in the middle to reset both web and Arduino wheel position via Websocket.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 3. Missing features and suggestions
+* Wheel does not work with fewer than 4 players. Suggestion: Make 3 more conditional wheels for 0-3 players. 0 and 1 should be one whole circle. For 2 and 3, make use of the rotation degree, transform-origin, and trigonometry calculation for clip-path to make the segments. <br>
+[clip-path maker](https://bennettfeely.com/clippy/)
+* Modal pop-up to announce the winner.
